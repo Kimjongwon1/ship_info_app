@@ -88,7 +88,7 @@ class _ShipListPageState extends ConsumerState<ShipListPage> {
               },
               child: const Text('검색'),
             ),
-            Text('총 ${state.ships.length}건 검색됨',
+            Text('${state.ships.length}척의 예약가능한 선박이 검색됨',
                 style: TextStyle(fontSize: 14)),
             const SizedBox(height: 16),
             if (state.isLoading)
