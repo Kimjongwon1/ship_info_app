@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ship_info_app/screen/webview_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'provider/ship_provider.dart';
 
@@ -111,12 +111,17 @@ class _ShipListPageState extends ConsumerState<ShipListPage> {
                         title: Text(
                             '${i + 1}. ${s.name} (${s.areaMain} ${s.areaSub})'),
                         subtitle: Text('${s.fishType} / 남은자리: ${s.remain}'),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => WebViewScreen(url: url),
-                          ),
-                        ),
+                        onTap: () async {
+                          final uri = Uri.parse(url);
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri,
+                                mode: LaunchMode.externalApplication);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('브라우저를 열 수 없습니다.')),
+                            );
+                          }
+                        },
                       ),
                     );
                   },
